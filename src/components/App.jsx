@@ -8,8 +8,7 @@ import { Filter } from './Filter/Filter';
 export const App = () => {
   const [contacts, setContacts] = useState(() => {
     const sringifiedContacts = localStorage.getItem('contacts');
-    const parsedContacts = JSON.parse(sringifiedContacts);
-    return parsedContacts;
+    return JSON.parse(sringifiedContacts) || [];
   });
   const [filter, setFilter] = useState('');
 
@@ -25,7 +24,7 @@ export const App = () => {
       alert(`${userData.name} is already in contacts`);
       return;
     }
-    setContacts([...contacts, userData]);
+    setContacts(prevState => [...prevState, userData]);
   };
 
   const onAddFilterChange = filterData => {
@@ -39,7 +38,7 @@ export const App = () => {
   };
 
   const onDeleteBtnClick = id => {
-    setContacts(contacts.filter(contact => contact.id !== id));
+    setContacts(prevState => prevState.filter(contact => contact.id !== id));
   };
 
   const filteredContacts = filterElements(contacts);
